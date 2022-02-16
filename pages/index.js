@@ -1,54 +1,70 @@
 import Head from "next/head";
-import { Stock } from '@ant-design/plots';
-import React,{useState,useEffect} from "react";
+import { Stock } from "@ant-design/plots";
+import React, { useState, useEffect } from "react";
 
 import Layout from "../components/layout/Index";
 const DemoStock = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([
+]);
 
   useEffect(() => {
-    asyncFetch();
+    setInterval(() => {
+      asyncFetch();
+    }, 4000);
   }, []);
 
   const asyncFetch = () => {
-    fetch('https://gw.alipayobjects.com/os/antfincdn/qtQ9nYfYJe/stock-data.json')
+    fetch(
+      "http://localhost:3001/"
+    )
       .then((response) => response.json())
-      .then((json) => setData(json))
+      .then((json) => {console.log("devuelto");return setData(json);})
       .catch((error) => {
-        console.log('fetch data failed', error);
+        console.log("fetch data failed", error);
       });
   };
   const config = {
-    data,
-    xField: 'trade_date',
-    yField: ['open', 'close', 'high', 'low'],
+    xField: "trade_date",
+    xAxis: {
+      label: {
+        formatter: (val) => {
+          return val + "h";
+        },
+      },
+    },
+    yField: ["open", "close", "high", "low"],
     meta: {
       vol: {
-        alias: '成交量',
+        alias: "volumen",
       },
       open: {
-        alias: '开盘价',
+        alias: "open",
       },
       close: {
-        alias: '收盘价',
+        alias: "close",
       },
       high: {
-        alias: '最高价',
+        alias: "high",
       },
       low: {
-        alias: '最低价',
+        alias: "low",
+      },
+    },
+    events: {
+      "plot:click": (evt) => {
+        console.log("hola");
       },
     },
     tooltip: {
-      fields: ['open', 'close', 'high', 'low', 'vol'],
+      fields: ["open", "close", "high", "low", "vol"],
     },
+    fallingFill: "#ef5350",
+    risingFill: "#26a69a",
   };
 
-  return <Stock {...config} />;
+  return <Stock data={data} {...config} />;
 };
 export default function Home() {
-
-  
   return (
     <>
       <Layout address="">
@@ -80,7 +96,7 @@ export default function Home() {
                   </svg>
                 </div>
               </div>
-              <DemoStock/>
+              <DemoStock />
             </div>
             <div className="bg-gray-900 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
               <div className="mb-4 flex items-center justify-between">
@@ -132,7 +148,9 @@ export default function Home() {
                           <tr>
                             <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-300">
                               Payment from{" "}
-                              <span className="font-semibold">Bonnie Green</span>
+                              <span className="font-semibold">
+                                Bonnie Green
+                              </span>
                             </td>
                             <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                               Apr 23 ,2021
@@ -192,7 +210,9 @@ export default function Home() {
                           <tr className="bg-gray-700">
                             <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-300 ">
                               Payment from{" "}
-                              <span className="font-semibold">THEMESBERG LLC</span>
+                              <span className="font-semibold">
+                                THEMESBERG LLC
+                              </span>
                             </td>
                             <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                               Apr 11 ,2021

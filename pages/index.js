@@ -4,8 +4,7 @@ import React, { useState, useEffect } from "react";
 
 import Layout from "../components/layout/Index";
 const DemoStock = () => {
-  const [data, setData] = useState([
-]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     setInterval(() => {
@@ -14,14 +13,14 @@ const DemoStock = () => {
   }, []);
 
   const asyncFetch = () => {
-    fetch(
+    /*     fetch(
       "http://localhost:3001/"
     )
       .then((response) => response.json())
       .then((json) => {console.log("devuelto");return setData(json);})
       .catch((error) => {
         console.log("fetch data failed", error);
-      });
+      }); */
   };
   const config = {
     xField: "trade_date",

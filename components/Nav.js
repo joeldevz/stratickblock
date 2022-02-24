@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useWallet } from "../Context/walletContext";
+import { BotonDropdown } from "./Bottom/Dropdown";
 
 export default () => {
-  const { connectedWallet, connect, address } = useWallet();
-
+  const { connectedWallet, connect, address, Balance } = useWallet();
   let addressModify;
   if (address !== null) {
     addressModify =
@@ -50,8 +50,15 @@ export default () => {
                 ></path>
               </svg>
             </button>
-            <a href="/" className="text-xl font-bold flex items-center lg:ml-2.5">
-              <img src="./logo1.png" className="h-12 mr-2" alt="Windster Logo" />
+            <a
+              href="/"
+              className="text-xl font-bold flex items-center lg:ml-2.5"
+            >
+              <img
+                src="./logo1.png"
+                className="h-12 mr-2"
+                alt="Windster Logo"
+              />
             </a>
             <form action="#" method="GET" className="hidden lg:block lg:pl-32">
               <label htmlFor="topbar-search" className="sr-only">
@@ -102,20 +109,21 @@ export default () => {
                 ></path>
               </svg>
             </button>
-            <div className="hidden lg:flex items-center">
+
+            <div className="hidden lg:flex items-center bg-gray-800 p-2 rounded-full">
+              <BotonDropdown Balance={Balance} />
               {connectedWallet ? (
-                <span className="text-lg font-bold  text-gray-300 px-5  hover:scale-105 cursor-pointer mr-5  bg-gray-800 p-2 rounded-full">
+                <span className="text-lg font-bold  text-gray-300 px-2  hover:scale-105 cursor-pointer   ">
                   {addressModify}
                 </span>
               ) : (
                 <span
                   onClick={connect}
-                  className="text-lg font-bold  text-gray-300 px-5  hover:scale-105 cursor-pointer mr-5  bg-gray-800 p-2 rounded-full"
+                  className="text-lg font-bold  text-gray-300 px-2  hover:scale-105 cursor-pointer "
                 >
                   Connect Metamask
                 </span>
               )}
-
             </div>
           </div>
         </div>

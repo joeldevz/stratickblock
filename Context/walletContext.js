@@ -1,9 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import Web3 from "web3";
-
-function getLibrary(provider) {
-  return new Web3(provider);
-}
 export function useInactiveListener() {
   const { active, error, activate } = useWeb3React();
 
@@ -47,11 +42,58 @@ export function useInactiveListener() {
     }
   }, [active, error, activate]);
 }
+
 export const WalletContext = createContext();
+const ListChain = {
+  "0x38": {
+    name: "BNB",
+    img: "/bnb.png",
+  },
+  "0x89": {
+    name: "MATIC",
+    img: "https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png",
+  },
+  "0xa4ec": {
+    name: "CELO",
+    img: "https://s2.coinmarketcap.com/static/img/coins/64x64/5567.png",
+  },
+  "0x141":{
+    name:"KCS",
+    img:"https://s2.coinmarketcap.com/static/img/coins/64x64/2087.png"
+  },
+  "0x19":{
+    name:"CRO",
+    img:"https://s2.coinmarketcap.com/static/img/coins/64x64/3635.png"
+  }
+};
 export const WalletProvider = ({ children }) => {
   const [address, setAddress] = useState(null);
   const [connectedWallet, setConnected] = useState(false);
+  const [Balance, setBalance] = useState(0);
+  const [chain, setChain] = useState(ListChain["0x38"]);
   let ethereum;
+  const GetBalanceWallet = () => {
+    return ethereum
+      .request({
+        method: "eth_getBalance",
+        params: [address, "latest"],
+      })
+      .then((balance) => {
+        setBalance(parseInt(balance) / 10 ** 18);
+      });
+  };
+  const chainNetwork = (id) => {
+    try {
+      return ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: id }], // chainId must be in hexadecimal numbers
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+
+  };
+  const func = { GetBalanceWallet, chainNetwork };
   useEffect(() => {
     ethereum = window.ethereum;
     ethereum.request({ method: "eth_accounts" }).then((res) => {
@@ -60,26 +102,53 @@ export const WalletProvider = ({ children }) => {
         setConnected(true);
       }
     });
+    ethereum.on("chainChanged", (chainId) => {
+      try {
+        console.log(chainId)
+        const id = ListChain[chainId];
+        
+        if (id === undefined) {
+          alert(id)
+          setTimeout(() => {
+            chainNetwork("0x38").then((res) => {
+              setChain(ListChain["0x38"]);
+            }).catch(()=>{
+              console.log("EEr")
+            })
+          }, 20000);
+     
+          return;
+        }
+
+        setChain(id);
+        GetBalanceWallet();
+      } catch (error) {}
+    });
     const handleAccountsChanged = (accounts) => {
-      console.log("cHandling 'accountsChanged' event with payload", accounts);
       if (accounts.length > 0) {
         setAddress(accounts[0]);
         setConnected(true);
       }
     };
     ethereum.on("accountsChanged", handleAccountsChanged);
-
   });
   const connect = async () => {
     ethereum.request({ method: "eth_requestAccounts" }).then((e) => {
-      console.log(e);
       setAddress(e[0]);
       setConnected(true);
     });
   };
   return (
     <WalletContext.Provider
-      value={{ address, connectedWallet, connect }}
+      value={{
+        Balance,
+        address,
+        connectedWallet,
+        connect,
+        func,
+        chain,
+        setChain,
+      }}
     >
       {children}
     </WalletContext.Provider>

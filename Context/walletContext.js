@@ -57,13 +57,18 @@ const ListChain = {
     name: "CELO",
     img: "https://s2.coinmarketcap.com/static/img/coins/64x64/5567.png",
   },
-  "0x141":{
-    name:"KCS",
-    img:"https://s2.coinmarketcap.com/static/img/coins/64x64/2087.png"
+  "0x141": {
+    name: "KCS",
+    img: "https://s2.coinmarketcap.com/static/img/coins/64x64/2087.png",
   },
-  "0x19":{
-    name:"CRO",
-    img:"https://s2.coinmarketcap.com/static/img/coins/64x64/3635.png"
+  "0x19": {
+    name: "CRO",
+    img: "https://s2.coinmarketcap.com/static/img/coins/64x64/3635.png",
+  },
+};
+const Verify = () => {
+  if (!window.ethereum) {
+    return true
   }
 };
 export const WalletProvider = ({ children }) => {
@@ -73,6 +78,9 @@ export const WalletProvider = ({ children }) => {
   const [chain, setChain] = useState(ListChain["0x38"]);
   let ethereum;
   const GetBalanceWallet = () => {
+    if (Verify()) {
+      return;
+    }
     return ethereum
       .request({
         method: "eth_getBalance",
@@ -83,6 +91,9 @@ export const WalletProvider = ({ children }) => {
       });
   };
   const chainNetwork = (id) => {
+    if (Verify()) {
+      return;
+    }
     try {
       return ethereum.request({
         method: "wallet_switchEthereumChain",
@@ -91,11 +102,14 @@ export const WalletProvider = ({ children }) => {
     } catch (error) {
       console.log("error", error);
     }
-
   };
   const func = { GetBalanceWallet, chainNetwork };
   useEffect(() => {
+    if (Verify()) {
+      return;
+    }
     ethereum = window.ethereum;
+
     ethereum.request({ method: "eth_accounts" }).then((res) => {
       if (res.length > 0) {
         setAddress(res[0]);
@@ -104,19 +118,21 @@ export const WalletProvider = ({ children }) => {
     });
     ethereum.on("chainChanged", (chainId) => {
       try {
-        console.log(chainId)
+        console.log(chainId);
         const id = ListChain[chainId];
-        
+
         if (id === undefined) {
-          alert(id)
+          alert(id);
           setTimeout(() => {
-            chainNetwork("0x38").then((res) => {
-              setChain(ListChain["0x38"]);
-            }).catch(()=>{
-              console.log("EEr")
-            })
+            chainNetwork("0x38")
+              .then((res) => {
+                setChain(ListChain["0x38"]);
+              })
+              .catch(() => {
+                console.log("EEr");
+              });
           }, 20000);
-     
+
           return;
         }
 
@@ -133,6 +149,9 @@ export const WalletProvider = ({ children }) => {
     ethereum.on("accountsChanged", handleAccountsChanged);
   });
   const connect = async () => {
+    if (Verify()) {
+      return;
+    }
     ethereum.request({ method: "eth_requestAccounts" }).then((e) => {
       setAddress(e[0]);
       setConnected(true);

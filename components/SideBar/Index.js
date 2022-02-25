@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useState } from "react";
 import { ItemNav } from "./Item";
 export default () => {
@@ -33,35 +34,40 @@ export default () => {
         </svg>
       ),
       text: "Users",
-      link: "/users",
+      link: "/search",
     },
     {
-      icon:(<svg
-        className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-300 transition duration-75"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-      </svg>),
-      text:"Farms",
-      link:"/farms",
-    },{
-      icon:(<svg
-        className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-300 transition duration-75"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          fillRule="evenodd"
-          d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-          clipRule="evenodd"
-        ></path>
-      </svg>),
-      text:"Exit",
-      link:"/logout",
-    }
+      icon: (
+        <svg
+          className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-300 transition duration-75"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+        </svg>
+      ),
+      text: "Farms",
+      link: "/farms",
+    },
+    {
+      icon: (
+        <svg
+          className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-300 transition duration-75"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fillRule="evenodd"
+            d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
+            clipRule="evenodd"
+          ></path>
+        </svg>
+      ),
+      text: "Exit",
+      link: "/logout",
+    },
   ]);
   return (
     <aside
@@ -102,10 +108,15 @@ export default () => {
 
               {menu.map((item, index) => (
                 <li key={item.text}>
-                  <ItemNav icon={item.icon} text={item.text} />
+                  <Link href={item.link}>
+                    <ItemNav
+                      icon={item.icon}
+                      link={item.link}
+                      text={item.text}
+                    />
+                  </Link>
                 </li>
               ))}
-
             </ul>
             <div className="space-y-2 pt-2">
               <a

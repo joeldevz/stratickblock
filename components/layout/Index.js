@@ -3,7 +3,7 @@ import SideBar from "../SideBar/Index";
 const Layout = ({ children, address }) => {
   return (
     <div>
-      <Nav address={address}/>
+      <Nav address={address} />
       <div className="flex overflow-hidden bg-white pt-16">
         <SideBar />
         <div
@@ -12,9 +12,11 @@ const Layout = ({ children, address }) => {
         ></div>
         <div
           id="main-content"
-          className="h-full w-full bg-gray-800 rounded-sm relative overflow-y-auto lg:ml-64"
+          className=" w-full bg-gray-800 rounded-sm relative overflow-y-auto lg:ml-64"
         >
-          <main>{children}</main>
+          <main className="">
+            <div className="pt-6 px-4 ">{children}</div>
+          </main>
           <footer className="bg-gray-900 md:flex md:items-center md:justify-between shadow rounded-lg p-4 md:p-6 xl:p-8 my-6 mx-4">
             <ul className="flex items-center flex-wrap mb-6 md:mb-0">
               <li>

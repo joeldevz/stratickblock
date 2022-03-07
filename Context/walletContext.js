@@ -68,7 +68,7 @@ const ListChain = {
 };
 const Verify = () => {
   if (!window.ethereum) {
-    return true
+    return true;
   }
 };
 export const WalletProvider = ({ children }) => {
@@ -90,6 +90,23 @@ export const WalletProvider = ({ children }) => {
         setBalance(parseInt(balance) / 10 ** 18);
       });
   };
+  const addTokenWallet = () => {
+    if (Verify()) {
+      return;
+    }
+    ethereum.request({
+      method: "wallet_watchAsset",
+      params: {
+        type: "ERC20",
+        options: {
+          address: "0x21633323b1165AaB4537225b00d7f04c2357b301",
+          symbol: "SBC",
+          decimals: 2,
+          image: "https://app.stratickblock.com/logo.png",
+        },
+      },
+    });
+  };
   const chainNetwork = (id) => {
     if (Verify()) {
       return;
@@ -103,7 +120,7 @@ export const WalletProvider = ({ children }) => {
       console.log("error", error);
     }
   };
-  const func = { GetBalanceWallet, chainNetwork };
+  const func = { GetBalanceWallet, chainNetwork, addTokenWallet };
   useEffect(() => {
     if (Verify()) {
       return;

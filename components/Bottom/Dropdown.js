@@ -16,27 +16,27 @@ export const BotonDropdown = ({ children }) => {
     {
       img: "https://s2.coinmarketcap.com/static/img/coins/64x64/5567.png",
       name: "CELO",
-      id:"0xa4ec"
+      id: "0xa4ec",
     },
     {
       img: "https://s2.coinmarketcap.com/static/img/coins/64x64/3635.png",
       name: "CRO",
-      id:"0x19"
+      id: "0x19",
     },
     {
       img: "https://s2.coinmarketcap.com/static/img/coins/64x64/2087.png",
       name: "KCS",
-      id:"0x141"
+      id: "0x141",
     },
   ]);
   const [active, setActive] = useState(false);
 
   return (
     <>
-      <div className="font-bold px-2 text-gray-300">
+      <div className="font-bold px-2 text-gray-300 hidden md:block">
         {Balance.toFixed(4)} {chain.name}
       </div>
-      <div className="bg-gray-800 p-2 rounded-md ">
+      <div className="bg-gray-800 p-2 rounded-md  hidden sm:block">
         <img
           width="25px"
           src={chain.img}
@@ -46,13 +46,13 @@ export const BotonDropdown = ({ children }) => {
       </div>
       <div
         width="50px"
-        className={`absolute mt-28 bg-gray-800 p-3 rounded-md grid grid-cols-5 ${
+        className={`  absolute mt-28 bg-gray-800 p-3 rounded-md grid grid-cols-5 ${
           active ? "block" : "hidden"
         }`}
       >
         {menu.map((item, index) => (
           <img
-            key={"chain"+index}
+            key={"chain" + index}
             width="25px"
             src={item.img}
             className="m-auto cursor-pointer mr-2"

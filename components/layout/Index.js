@@ -1,11 +1,14 @@
+import { useState } from "react";
 import Nav from "../Nav";
 import SideBar from "../SideBar/Index";
 const Layout = ({ children, address }) => {
+  const [isOpen, setOpenMenu] = useState();
+  
   return (
     <div>
-      <Nav address={address} />
+      <Nav  setOpenMenu={setOpenMenu}  isOpen={isOpen}/>
       <div className="flex overflow-hidden bg-white pt-16">
-        <SideBar />
+        <SideBar isOpen={isOpen} />
         <div
           className="bg-gray-900 opacity-50 hidden fixed inset-0 z-10"
           id="sidebarBackdrop"

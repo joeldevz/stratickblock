@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useWallet } from "../Context/walletContext";
 import { BotonDropdown } from "./Bottom/Dropdown";
 
-export default () => {
+export default ({ isOpen, setOpenMenu }) => {
   const { connectedWallet, connect, address, Balance } = useWallet();
   let addressModify;
   if (address !== null) {
@@ -18,6 +18,7 @@ export default () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-start">
             <button
+              onClick={() => setOpenMenu(!isOpen)}
               id="toggleSidebarMobile"
               aria-expanded="true"
               aria-controls="sidebar"
@@ -56,7 +57,12 @@ export default () => {
             >
               <img
                 src="./logo1.png"
-                className="h-12 mr-2"
+                className="h-12 mr-2 hidden md:block"
+                alt="Windster Logo"
+              />
+              <img
+                src="./logo.png"
+                className="h-12 mr-2  md:hidden"
                 alt="Windster Logo"
               />
             </a>
@@ -89,28 +95,8 @@ export default () => {
               </div>
             </form>
           </div>
-          <div className="flex items-center">
-            <button
-              id="toggleSidebarMobileSearch"
-              type="button"
-              className="lg:hidden text-gray-500 hover:text-gray-900 hover:bg-gray-100 p-2 rounded-lg"
-            >
-              <span className="sr-only">Search</span>
-              <svg
-                className="w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </button>
-
-            <div className="hidden lg:flex items-center bg-gray-800 p-2 rounded-full">
+          <div className="flex items-center  ">
+            <div className=" flex items-center bg-gray-800 p-2 rounded-full">
               <BotonDropdown Balance={Balance} />
               {connectedWallet ? (
                 <span className="text-lg font-bold  text-gray-300 px-2  hover:scale-105 cursor-pointer   ">

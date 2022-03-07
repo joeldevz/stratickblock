@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ItemNav } from "./Item";
-export default () => {
+export default ({isOpen}) => {
   const [menu, setMenu] = useState([
     {
       icon: (
@@ -72,7 +72,7 @@ export default () => {
   return (
     <aside
       id="sidebar"
-      className="fixed hidden z-20 h-full top-0 left-0 pt-16 flex lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75"
+      className={`fixed ${isOpen?'show':'hidden'} transition-all  z-20 h-full top-0 left-0 pt-16 flex lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75`}
       aria-label="Sidebar"
     >
       <div className="relative flex-1 flex flex-col min-h-0 border-r border-gray-900 bg-gray-900 pt-0">
@@ -99,7 +99,7 @@ export default () => {
                       type="text"
                       name="email"
                       id="mobile-search"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-600 focus:ring-cyan-600 block w-full pl-10 p-2.5"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-600  block w-full pl-10 p-2.5"
                       placeholder="Search"
                     />
                   </div>

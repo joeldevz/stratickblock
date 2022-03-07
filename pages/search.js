@@ -7,13 +7,12 @@ import { GetPortfolio, GetSearch } from "../API";
 export default function Search() {
   const [tokens, setTokens] = useState([]);
   const [search, setSearch] = useState("");
-  useEffect(()=>{
-    GetPortfolio().then((res) => {
-        setTokens(res);
-    })
-  },[])
   useEffect(() => {
-
+    GetPortfolio().then((res) => {
+      setTokens(res);
+    });
+  }, []);
+  useEffect(() => {
     if (search.length >= 3) {
       GetSearch(search).then((res) => {
         setTokens(res);
@@ -47,8 +46,10 @@ export default function Search() {
                 </div>
                 <input
                   type="text"
-                  
-                  onKeyPress={(e) => {console.log(e.target.value);setSearch(e.target.value)}}
+                  onKeyPress={(e) => {
+                    console.log(e.target.value);
+                    setSearch(e.target.value);
+                  }}
                   className="bg-gray-700 border border-gray-700 text-gray-300 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pl-10 p-2.5"
                   placeholder="Search"
                 />
@@ -67,6 +68,7 @@ export default function Search() {
               ) : (
                 tokens.map((token) => (
                   <Token
+                    key={token.id}
                     name={token.name}
                     change={token.usd.percent_change_24h}
                     url={token.url}
